@@ -16,6 +16,7 @@ type Props = {
 type State = {
 	counter: number;
 	title: string;
+	todos: any[];
 };
 
 export class ClassComponentSample extends Component<Props, State> {
@@ -23,11 +24,12 @@ export class ClassComponentSample extends Component<Props, State> {
 	// class component ait props bilgisi kalırım alaınan Component sınıfına taşındı.
 	constructor(props: Props) {
 		super(props);
-		this.state = { counter: 0, title: '' }; // state initialize ettik.
+		this.state = { counter: 0, title: '', todos: [] }; // state initialize ettik.
 		// direkt olarak method class componente bağlkanacak ise bind işlemini uyguluyoruz
 		this.increase = this.increase.bind(this);
 		// direkt method bağlayacaksak bu yöntem ile ilerlemeliyiz.
 	}
+
 	increase(): void {
 		// state değişimi asenkron çalışır bu sebeple state değiştiği anı set state kodundan sonra yakalayamayız. Bunun için callback function tanımlamışlar.
 		// this.state.title = 'deneme'; Not ste State olmadan state deki hiçbir değer güncellenemez
@@ -42,9 +44,74 @@ export class ClassComponentSample extends Component<Props, State> {
 		});
 		// console.log('değişen state', this.state); Yanlış bir state yakalama yöntemi.
 	}
+
+	// Component doma girdikten sonra 1 kereye mahsus tetiklenir
+	// Component ilk load olduğunda veri çekme işlemleri ve state aktarma işlemleri burada yapılır.
+	componentDidMount(): void {
+		console.log('render sonrası ilk tatiklenen method');
+		fetch('https://jsonplaceholder.typicode.com/todos')
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log('data', data);
+				// setState apidan gelen veriyi state aktarıyoruz.
+				this.setState({ ...this.state, todos: data });
+				// virtual dom tetiklenir.
+			});
+	}
+
+	// componentdidMount sonrası ilk çalışan lifecycle method
+	// her state değişiminde tetiklenir.
+	// bir kereye mahsus ilk yüklemede çalışır.
+	// ilk yükleme dışında state değiştiğinde çalışır
+	componentDidUpdate(
+		prevProps: Readonly<Props>,
+		prevState: Readonly<State>,
+		snapshot?: any
+	): void {
+		console.log(
+			'component içerisinde bir state güncellemesi olduğunda çalışır',
+			prevProps,
+			prevState
+		);
+		// component içerisinde state takibini buradan yapabiliriz.
+
+		if (this.state.todos.length > 0) {
+			alert('veri yükleme tamamlandı');
+			// apidan farklı bir veri load etme işlemleri uygulanabiliriz.
+		}
+
+		if (this.state.title !== prevState['title']) {
+			// bir önceki title değeri ile bir sonraki title değeri birbirinden farklıysa özel bir durum meydana getir.
+		}
+	}
+
+	// güncelleme virtual dom'a yansısınmı yoksa yansımasınmı kontrolü yapılabilir
+	// component render yönetilebilir.
+	shouldComponentUpdate(
+		nextProps: Readonly<Props>,
+		nextState: Readonly<State>,
+		nextContext: any
+	): boolean {
+		return true;
+	}
+
+	componentWillUnmount(): void {
+		console.log('component domdan çıkacağı zaman tetiklenir.');
+		// component domdan ya sayfadan başka bir sayfaya yönlenmede yada ekranda visisble tru yada false olduğunda görünür.
+		// interval clear edilebilir
+		// socket connection varsa close edilebilir.
+		// rxjs subscription unsubscribe edilmelidir. 
+	}
+
+	// component ilk doma girdiğinde tetiklenen metho // render phase // mounting phase // unmounting phase
 	render(): ReactNode {
+		console.log('...rendering');
 		return (
 			<div>
+				Todos Count: {this.state.todos.length}
+				<br></br>
 				{this.props.text}
 				<p>{this.props.content}</p>
 				<p>
