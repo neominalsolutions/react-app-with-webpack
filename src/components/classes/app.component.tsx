@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import imgSrc from './../assets/images/AsenkronProgramlama.png';
 import { ClassComponentSample } from './class-component-sample';
+
 // React uygulamasının componentleri doma bastı boostrapt edildiği yer burası.
 type AppProps = {};
 type AppState = { visible: boolean };
