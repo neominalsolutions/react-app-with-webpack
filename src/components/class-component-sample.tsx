@@ -7,6 +7,7 @@ import { Component, ReactNode } from 'react';
 // object, array, object[], regex, func bunlarda ref type olarak tanımlanır.
 type Props = {
 	text: string;
+	content?: string; // Optional değer
 };
 // const c: Props = { text: '10' };
 // c.text
@@ -18,7 +19,12 @@ export class ClassComponentSample extends Component<Props> {
 	}
 
 	render(): ReactNode {
-		return <div>{this.props.text}</div>;
+		return (
+			<div>
+				{this.props.text}
+				<p>{this.props.content}</p>
+			</div>
+		);
 	}
 }
 
