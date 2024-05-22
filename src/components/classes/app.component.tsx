@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import imgSrc from './../assets/images/AsenkronProgramlama.png';
 import { ClassComponentSample } from './class-component-sample';
+import CounterSample from '../functions/counter-sample';
 
 // React uygulamasının componentleri doma bastı boostrapt edildiği yer burası.
 type AppProps = {};
@@ -30,6 +31,7 @@ export class App extends Component<AppProps, AppState> {
 				{/* <div className="container">Externel CSS</div>
 				<img src={imgSrc} />
 				<br></br> */}
+				<CounterSample counterInit={5} />
 			</>
 		);
 	}
