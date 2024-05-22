@@ -15,7 +15,11 @@ function TodoSample() {
 
 	const onFormSubmit = (e: FormEvent) => {
 		e.preventDefault(); // formu durduruk.
-		setTodos([...todos, form as Todo]);
+		// append
+		// setTodos([...todos, form as Todo]);
+
+		setTodos([form as Todo, ...todos]);
+		// prepend
 		// initial state geri dön
 		setForm({ title: '', completed: false });
 	};
@@ -29,6 +33,23 @@ function TodoSample() {
 		console.log('completed', value);
 		setForm({ ...form, completed: value });
 	};
+
+	// for (const item of todos) {
+	//     if(item.title.includes('a')){
+
+	//     }
+	// }
+
+	// todos.map((item: Todo) => {
+	// 	return { title: item.title };
+	// });
+
+	// todos.forEach((item:Todo) => {
+	//     if(item.title.includes('a')){
+
+	//     }
+	// })
+
 	return (
 		<>
 			{/* Two Way Binding */}
@@ -60,6 +81,13 @@ function TodoSample() {
 						{item.title} /{' '}
 						<span style={{ color: item.completed ? 'green' : 'red' }}>
 							{item.completed ? 'Görev Tamamlandı' : 'Görev Beklemede'}
+							<input type="checkbox" />
+							{/* checkbox true olunca todos dizindeki item state güncellensin */}
+						</span>
+						<span>
+							<button>Düzenle</button>
+							<button>Sil</button>
+							{/* Düzenle diyince Ekle butonu yerine Update Button görünsün */}
 						</span>
 					</div>
 				);
@@ -69,3 +97,7 @@ function TodoSample() {
 }
 
 export default TodoSample;
+
+// useEffect => LifeCycleMethods
+// useLayoutEffect
+// useRef 3. Default Hook.
