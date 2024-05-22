@@ -27,7 +27,7 @@ const rootElement = ReactDOM.createRoot(
 rootElement.render(
 	<div>
 		<ClassComponentSample text="sample-1" content="test-1" />
-		<ClassComponentSample text="sample-2" />
+		{/* <ClassComponentSample text="sample-2" /> */}
 		<a href="www.a.com"></a>
 	</div>
 );
