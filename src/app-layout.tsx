@@ -14,7 +14,7 @@ function AppLayout() {
 				<Link to="/counter">Counter</Link>{' '}
 				<Link to="/todo-single-component">Todo (Single)</Link>{' '}
 				<Link to="/todo-multiple-component">Todo (Multiple)</Link>{' '}
-				<Link to="/bmi">BMI</Link>
+				<Link to="/bmi">BMI</Link> <Link to="/users-axios">Users Axios</Link>
 			</header>
 			<br></br>
 			{/* Dinamik olarak değişkenlik gösteren kısım */}

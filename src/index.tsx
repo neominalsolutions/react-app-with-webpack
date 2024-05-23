@@ -12,6 +12,7 @@ import BodyMassIndexSample from './components/functions/useRefHooks/bmi-sample';
 import TodoSample from './components/functions/todo-sample';
 import TodoSamplePage from './pages/todo-sample-page';
 import HomePage from './pages/home-page';
+import UsersPage from './pages/users-page';
 // import { App } from './components/classes/app.component';
 // import App from './components/functions/app.function.component';
 
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
 			{
 				path: 'todo-multiple-component',
 				Component: TodoSamplePage,
+			},
+			{
+				path: 'users-axios',
+				Component: UsersPage,
 			},
 		],
 	},
