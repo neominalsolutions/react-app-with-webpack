@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Todo } from '../models/todo.model';
 import React from 'react';
 
@@ -14,21 +14,44 @@ export type TodoFormState = {
 export type TodoFormProps = {
 	onItemAdded: (item: TodoFormState) => void;
 	onItemUpdated: (item: TodoFormState) => void;
+	todoUpdate: TodoFormState;
 };
 
-function TodoForm({ onItemAdded, onItemUpdated }: TodoFormProps) {
+function TodoForm({ onItemAdded, onItemUpdated, todoUpdate }: TodoFormProps) {
+	// initial state
 	const [form, setForm] = useState<TodoFormState>({
 		title: '',
 		completed: false,
+		index: -1,
 	});
 
+	// initial state
 	const [mode, setMode] = useState('create');
+
+	const clearForm = () => {
+		setForm({ title: '', completed: false, index: -1 });
+		setMode('create');
+	};
+
+	useEffect(() => {
+		console.log('...rendering', todoUpdate);
+		// component didmount
+		// component doma basıldığında ilk tetiklenen hook
+		// [todoUpdate] [deps] yani todoUpdate nesnesi değiştiğinde değişimi dinle ve componenti güncellemek ile ilgili bir state değişikliği yap.
+
+		if (todoUpdate.index !== -1) {
+			setForm({ ...todoUpdate }); // update geldiyse artık form içindeki değerler değişmeli
+			setMode('update'); // todoUpdate geldiyse update mode olarak çalışıyorumdur.
+			console.log('...rendering');
+		}
+	}, [todoUpdate]);
 
 	const onFormSubmit = (e: FormEvent) => {
 		e.preventDefault(); // formu durduruk.
 		setForm({ title: '', completed: false });
 		// eklendiğine dair eventimimiz fırlattık
 		onItemAdded(form);
+		clearForm();
 	};
 	const onTitleInputChange = (e: InputEvent) => {
 		const value = (e.currentTarget as HTMLInputElement).value;
@@ -63,6 +86,8 @@ function TodoForm({ onItemAdded, onItemUpdated }: TodoFormProps) {
 					<button
 						onClick={() => {
 							// Listeye şuan elimdeki güncel form bilgisini göndereceğim.
+							onItemUpdated(form);
+							clearForm();
 						}}
 						type="button"
 					>

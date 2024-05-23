@@ -1,15 +1,24 @@
 import { useState } from 'react';
 import { Todo } from '../models/todo.model';
 import React from 'react';
+import { TodoFormState } from './todo-form';
 
 type TodoProps = {
 	todos: Todo[];
+	onItemEdit: (item: TodoFormState) => void;
+	onItemDelete: (index: number) => void;
+	onCompleteChange: (index: number) => void;
 };
 
 // Not: Component ana wrapper component üzerinden değişen state göre kendini tekrar güncellesin diye componente değerleri props olarak geçeriz.
 // Props üzerinden component yeni değere göre yenide render edilir.
 
-function TodoList({ todos }: TodoProps) {
+function TodoList({
+	todos,
+	onItemEdit,
+	onItemDelete,
+	onCompleteChange,
+}: TodoProps) {
 	// const [todos, setTodos] = useState<Todo[]>([]);
 
 	return (
@@ -27,6 +36,7 @@ function TodoList({ todos }: TodoProps) {
 								type="checkbox"
 								onChange={() => {
 									// üst componente görevin tamamlandığına dair  bir bilgi vermemiz lazım.
+									onCompleteChange(index);
 								}}
 							/>
 							{/* checkbox true olunca todos dizindeki item state güncellensin */}
@@ -34,9 +44,7 @@ function TodoList({ todos }: TodoProps) {
 						<span>
 							<button
 								onClick={() => {
-									// setForm({ ...item, index: index });
-									// setMode('update');
-									// Düzenleme işleminde Form ile bu component haberleşmelidir.
+									onItemEdit({ ...item, index: index } as TodoFormState);
 								}}
 							>
 								Düzenle
@@ -49,6 +57,7 @@ function TodoList({ todos }: TodoProps) {
 
 									if (result) {
 										// todo'nun silineceği dair bir bilgi vermeliyiz.
+										onItemDelete(index);
 									} else {
 										window.alert('İşlem iptal edildi');
 									}
