@@ -7,6 +7,7 @@ module.exports = {
 	mode: 'development',
 	devServer: {
 		port: 3001,
+		historyApiFallback: true,
 	},
 	output: {
 		filename: 'bundle.js', // js dönüşecek olan dosyanın ismi, uygulama bundle.js den çalışacak.
