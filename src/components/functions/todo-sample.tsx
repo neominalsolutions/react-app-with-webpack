@@ -125,7 +125,27 @@ function TodoSample() {
 							>
 								Düzenle
 							</button>
-							<button>Sil</button>
+							<button
+								onClick={() => {
+									const result = window.confirm(
+										'Kaydı silmek istediğinize emin misiniz?'
+									);
+
+									if (result) {
+										// const silinecek = todos[index];
+										// const silinmeyecekler = todos.filter(
+										// 	(x) => x.title !== silinecek.title
+										// );
+										todos.splice(index, 1);
+										setTodos([...todos]);
+										// setTodos([...silinmeyecekler]);
+									} else {
+										window.alert('İşlem iptal edildi');
+									}
+								}}
+							>
+								Sil
+							</button>
 							{/* Düzenle diyince Ekle butonu yerine Update Button görünsün */}
 						</span>
 					</div>
